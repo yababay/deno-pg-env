@@ -13,15 +13,13 @@ Then use the module as:
 ```javascript
 import client from 'https://raw.githubusercontent.com/yababay/deno-pg-env/master/mod.js'
 
-async function main() {
-    await client.connect();
-    const result = await client.query("SELECT * FROM people;");
-    console.log(result.rows);
-    await client.end();
-}
-
-main();
+await client.connect();
+const result = await client.query("select * from users;");
+console.log(result.rows);
+await client.end();
 ```
+
+in `seed.js` file.
 
 Run the program with `deno`:
 
