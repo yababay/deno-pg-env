@@ -1,6 +1,6 @@
 # Deno's quick PostgreSQL connection
 
-The program uses [denodb](https://deno.land/x/denodb) and [denoenv](https://deno.land/x/denoenv) modules. Please create in current direcrory `.env`-file, for example:
+The program uses [postgres](https://deno.land/x/postgres/mod.ts) and [denoenv](https://deno.land/x/denoenv) modules. Please create in current direcrory `.env`-file, for example:
 
 ```
 PG_DATABASE = my_db
@@ -11,23 +11,16 @@ PG_PASSWORD = qwerty123
 Then use the module as:
 
 ```javascript
-import db from 'https://raw.githubusercontent.com/yababay/deno-pg-env/master/mod.js'
-import {DATA_TYPES, Model} from 'https://deno.land/x/denodb/mod.ts';
+import client from 'https://raw.githubusercontent.com/yababay/deno-pg-env/master/mod.js'
 
-class Manufacturers extends Model {
-    static table = 'manufacturers';
-    static timestamps = true;
-    static fields = {
-        id: {
-            primaryKey: true,
-            autoIncrement: true,
-        },
-        manufacturer: DATA_TYPES.STRING,
-    }
+async function main() {
+    await client.connect();
+    const result = await client.query("SELECT * FROM people;");
+    console.log(result.rows);
+    await client.end();
 }
 
-db.link([Manufacturers])
-await db.sync({ drop: true });
+main();
 ```
 
 Run the program with `deno`:
